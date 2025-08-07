@@ -4,7 +4,7 @@
 
 ## 🚀 Запуск проекта
 ```bash
-git clone https://github.cohttps://github.com/Blake22020/Converter
+git clone https://github.com/Blake22020/Converter
 cd my-go-app
 go run main.go
 ```
