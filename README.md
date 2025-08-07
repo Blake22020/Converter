@@ -5,6 +5,6 @@
 ## 🚀 Запуск проекта
 ```bash
 git clone https://github.com/Blake22020/Converter
-cd my-go-app
+cd Converter
 go run main.go
 ```
