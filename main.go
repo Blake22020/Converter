@@ -58,6 +58,7 @@ func main() {
 			for key, _ := range values {
 				fmt.Println(key)
 			}
+			continue
 		}
 		val, ok = values[get]
 		if !ok {
