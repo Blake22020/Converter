@@ -54,7 +54,7 @@ func main() {
 		get = strings.ToUpper(get)
 		if get == "STOP" {
 			break
-		} else if get == "list" {
+		} else if get == "LIST" {
 			for key, _ := range values {
 				fmt.Println(key)
 			}
