@@ -43,8 +43,7 @@ func main() {
 	var val float64
 	var ok bool
 	for {
-		fmt.Println("Напишите STOP, что бы закончить запись")
-		fmt.Println("Напишите list, что бы получить полный список доступных валют")
+		fmt.Println("Напишите help что бы увидеть все доступные команды")
 		fmt.Print("Введите название валюты: ")
 		_, err := fmt.Scanln(&get)
 		if err != nil {
@@ -52,9 +51,16 @@ func main() {
 			continue
 		}
 		get = strings.ToUpper(get)
-		if get == "STOP" {
-			break
-		} else if get == "LIST" {
+		switch get {
+
+		case "STOP":
+			return
+		case "HELP":
+			fmt.Println("help: Выводит все доступные команды")
+			fmt.Println("list: Выводит все доступные валюты")
+			fmt.Println("stop: Остонавливает программу")
+			continue
+		case "LIST":
 			for key, _ := range values {
 				fmt.Println(key)
 			}
