@@ -5,8 +5,12 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"os"
 	"strings"
+
+	"github.com/joho/godotenv"
 )
 
 type result struct {
@@ -16,26 +20,30 @@ type result struct {
 }
 
 func main() {
-	var key = "5b1e831d2eee621c6c93ee67"
-	data, err := http.Get("https://v6.exchangerate-api.com/v6/" + key + "/latest/USD")
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Ошибка .env")
+	}
+	var apikey = os.Getenv("API_KEY")
+	data, err := http.Get("https://v6.exchangerate-api.com/v6/" + apikey + "/latest/USD")
 	if err != nil {
 		panic(err)
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-
+			log.Fatal("Ошибка открытия тела")
 		}
 	}(data.Body)
 
 	body, err := ioutil.ReadAll(data.Body)
 	if err != nil {
-		panic(err)
+		log.Fatal("Ошибка создания тела")
 	}
 
 	var r result
 	if err := json.Unmarshal(body, &r); err != nil {
-		panic(err)
+		log.Fatal("Ошибка открытия json")
 	}
 
 	var values = r.ConversionRates
