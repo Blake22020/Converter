@@ -25,6 +25,7 @@ func main() {
 		log.Fatal("Ошибка .env")
 	}
 	var apikey = os.Getenv("API_KEY")
+
 	data, err := http.Get("https://v6.exchangerate-api.com/v6/" + apikey + "/latest/USD")
 	if err != nil {
 		panic(err)
@@ -32,18 +33,18 @@ func main() {
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-			log.Fatal("Ошибка открытия тела")
+			log.Fatal("Ошибка открытия тела =(")
 		}
 	}(data.Body)
 
 	body, err := ioutil.ReadAll(data.Body)
 	if err != nil {
-		log.Fatal("Ошибка создания тела")
+		log.Fatal("Ошибка создания тела =(")
 	}
 
 	var r result
 	if err := json.Unmarshal(body, &r); err != nil {
-		log.Fatal("Ошибка открытия json")
+		log.Fatal("Ошибка открытия json =(")
 	}
 
 	var values = r.ConversionRates
@@ -55,7 +56,7 @@ func main() {
 		fmt.Print("Введите название валюты: ")
 		_, err := fmt.Scanln(&get)
 		if err != nil {
-			fmt.Println("Попробуйте ещё раз")
+			fmt.Println("Попробуйте ещё раз =)")
 			continue
 		}
 		get = strings.ToUpper(get)
@@ -76,7 +77,7 @@ func main() {
 		}
 		val, ok = values[get]
 		if !ok {
-			fmt.Println("Попробуйте ещё раз")
+			fmt.Println("Попробуйте ещё раз =(")
 			continue
 		}
 		fmt.Println(val)
