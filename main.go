@@ -24,9 +24,55 @@ func main() {
 	if err != nil {
 		log.Fatal("Ошибка .env")
 	}
+
+	currencies := []string{
+		"WST", "ANG", "FKP", "MKD", "BOB", "BYN", "ILS", "LYD", "PKR", "RSD",
+		"SBD", "TWD", "AWG", "BMD", "HRK", "ISK", "MZN", "UGX", "ARS", "LSL",
+		"NAD", "SSP", "AZN", "BZD", "JMD", "KES", "MWK", "BGN", "BIF", "CNY",
+		"IMP", "NOK", "SYP", "XCG", "BTN", "AED", "BDT", "MDL", "COP", "GBP",
+		"GMD", "SLL", "BWP", "GYD", "JOD", "KWD", "BSD", "AMD", "DJF", "MYR",
+		"NZD", "UZS", "BRL", "LRD", "MGA", "MVR", "NGN", "STN", "TOP", "VND",
+		"EGP", "KMF", "KRW", "SEK", "CLP", "FJD", "IDR", "SAR", "YER", "AOA",
+		"MNT", "RUB", "TJS", "TTD", "PAB", "CZK", "HKD", "KZT", "TND", "XAF",
+		"CUP", "KGS", "RON", "UAH", "CVE", "PEN", "SHP", "DZD", "HTG", "HUF",
+		"MXN", "OMR", "TVD", "CDF", "BND", "GNF", "GTQ", "SOS", "FOK", "MUR",
+		"NIO", "ZMW", "ZWL", "USD", "CAD", "HNL", "INR", "TMT", "ZAR", "CHF",
+		"GEL", "JEP", "LAK", "TZS", "BBD", "IQD", "XDR", "AFN", "MMK", "QAR",
+		"SCR", "SDG", "SRD", "GGP", "GIP", "LBP", "MRU", "NPR", "PHP", "PLN",
+		"SZL", "BAM", "CRC", "ERN", "KHR", "XCD", "AUD", "VUV", "XOF", "XPF",
+		"SGD", "VES", "DKK", "ETB", "KID", "KYD", "PYG", "UYU", "BHD", "DOP",
+		"GHS", "IRR", "PGK", "RWF", "SLE", "THB", "MOP", "ALL", "EUR", "JPY",
+		"LKR", "MAD", "TRY",
+	}
+
 	var apikey = os.Getenv("API_KEY")
 
-	data, err := http.Get("https://v6.exchangerate-api.com/v6/" + apikey + "/latest/USD")
+	var base string
+	for {
+		fmt.Print("Введите базовую валюту: ")
+		_, err := fmt.Scanln(&base)
+		if err != nil {
+			fmt.Println("\nОшибка ввода, попробуйте ещё раз")
+			continue
+		}
+
+		base = strings.ToUpper(base)
+
+		is_valid := false
+		for _, v := range currencies {
+			if base == v {
+				is_valid = true
+			}
+		}
+		if !is_valid {
+			fmt.Println("\nНет такой валюты =(")
+			continue
+		}
+
+		break
+	}
+
+	data, err := http.Get("https://v6.exchangerate-api.com/v6/" + apikey + "/latest/" + base)
 	if err != nil {
 		panic(err)
 	}
@@ -48,6 +94,7 @@ func main() {
 	}
 
 	var values = r.ConversionRates
+
 	var get string
 	var val float64
 	var ok bool
