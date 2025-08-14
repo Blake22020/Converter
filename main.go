@@ -123,6 +123,16 @@ func main() {
 			fmt.Println("help: Выводит все доступные команды")
 			fmt.Println("list: Выводит все доступные валюты")
 			fmt.Println("stop: Остонавливает программу")
+			fmt.Println("history: Выводит историю конвертации")
+			continue
+		case "HISTORY":
+			content, err := os.ReadFile("history.txt")
+			if err != nil {
+				log.Fatal(err)
+			}
+			for _, v := range strings.Split(string(content), "\n") {
+				fmt.Println(v)
+			}
 			continue
 		case "LIST":
 			for key, _ := range values {
