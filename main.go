@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/joho/godotenv"
@@ -98,6 +99,13 @@ func main() {
 	var get string
 	var val float64
 	var ok bool
+
+	history, err := os.Create("history.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer history.Close()
+
 	for {
 		fmt.Println("Напишите help что бы увидеть все доступные команды")
 		fmt.Print("Введите название валюты: ")
@@ -128,6 +136,7 @@ func main() {
 			continue
 		}
 		fmt.Println(val)
-	}
+		history.WriteString(get + "\t" + strconv.FormatFloat(val, 'f', -1, 64) + "\n")
 
+	}
 }
