@@ -10,6 +10,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -130,8 +131,13 @@ func main() {
 			if err != nil {
 				log.Fatal(err)
 			}
-			for _, v := range strings.Split(string(content), "\n") {
-				fmt.Println(v)
+			if len(content) == 0 {
+				fmt.Println("История пуста =(")
+			} else {
+				fmt.Println()
+				for _, v := range strings.Split(string(content), "\n") {
+					fmt.Println("\t" + v)
+				}
 			}
 			continue
 		case "LIST":
@@ -146,7 +152,10 @@ func main() {
 			continue
 		}
 		fmt.Println(val)
-		history.WriteString(get + "\t" + strconv.FormatFloat(val, 'f', -1, 64) + "\n")
-
+		now := time.Now().Format("02.01.2006 15:04:05")
+		_, err = history.WriteString(now + "\t" + base + "  -  " + get + " " + strconv.FormatFloat(val, 'f', -1, 64) + "\n")
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 }
